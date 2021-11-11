@@ -1,28 +1,11 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import s from './Contacts.module.sass'
 import {Link} from "react-router-dom";
 import emailjs from 'emailjs-com'
-import {GoogleMap, withGoogleMap, withScriptjs, Marker} from "react-google-maps";
-import * as parksData from './skateboard-parks.json'
-
-function Map() {
-    return (
-        <GoogleMap defaultZoom={10}
-                   defaultCenter={{lat: 55.766890, lng: 37.573270}}
-        >
-            {parksData.features.map((park) => (
-                <Marker key={park.properties.PARK_ID} position={{
-                    lat: park.geometry.coordinates[1],
-                    lng: park.geometry.coordinates[1],
-                }}/>
-            ))}
-        </GoogleMap>
-    )
-}
-
-const WrappedMap = withScriptjs(withGoogleMap(Map))
 
 export const Contacts = () => {
+    const position = [55.766891, 37.573269]
+
     function sendEmail(e) {
         e.preventDefault()
 
@@ -52,10 +35,12 @@ export const Contacts = () => {
                         </div>
                         <div className={s.form} onSubmit={sendEmail}>
                             Форма обратной связи
-                            <form action="">
-                                <input className={s.intupForm} type="text" name={'name'} placeholder={'Имя*'}/>
-                                <input className={s.intupForm} type="phone" name={'phone'} placeholder={'Телефон*'}/>
-                                <input className={s.intupForm} type="email" name={'email'} placeholder={'Почта'}/>
+                            <form action="https://formsubmit.co/0428vlad0428@mail.ru" method="POST">
+                                <input type="hidden" name="_next" value="http://limitlesscreator.tech/thanks.html"/>
+                                    <input type="hidden" name="_subject" value="New submission!"/>
+                                    <input className={s.intupForm} type="text" name={'name'} placeholder={'Имя*'} required/>
+                                <input className={s.intupForm} type="phone" name={'phone'} placeholder={'Телефон*'} required/>
+                                <input className={s.intupForm} type="email" name={'email'} placeholder={'Почта'} required/>
                                 <input className={s.inputButton} type="submit" value={'Отправить'}/>
                             </form>
                             <div className={s.soglasie}>Нажимая кнопку отправить, вы подтверждаете <br/> согласие
@@ -68,16 +53,7 @@ export const Contacts = () => {
                             E-mail <br/>
                             <div>info@linksite.ru</div>
                         </div>
-                        <div style={{height: "500px", width: "500px"}}>
-                            <WrappedMap
-                                googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&
-                                libraries=geometry,drawing,places&key=${
-                                    process.env.REACT_APP_GOOGLE_KEY
-                                }`}
-                                loadingElement={<div style={{height: "100%"}}/>}
-                                containerElement={<div style={{height: "100%"}}/>}
-                                mapElement={<div style={{height: "100%"}}/>}
-                            />
+                        <div>
                         </div>
                     </div>
                 </div>
